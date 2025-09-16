@@ -78,7 +78,7 @@ local ConfigurationExtension = ".rfld"
 local settingsTable = {
 	General = {
 		-- if needs be in order just make getSetting(name)
-		rayfieldOpen = {Type = 'bind', Value = 'K', Name = 'Rayfield Keybind'},
+		rayfieldOpen = {Type = 'bind', Value = 'LeftAlt', Name = 'Rayfield Keybind'},
 		-- buildwarnings
 		-- rayfieldprompts
 
@@ -1825,7 +1825,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			local KeyMain = KeyUI.Main
 			KeyMain.Title.Text = Settings.KeySettings.Title or Settings.Name
 			KeyMain.Subtitle.Text = Settings.KeySettings.Subtitle or "Key System"
-			KeyMain.NoteMessage.Text = Settings.KeySettings.Note or "No instructions"
+			KeyMain.NoteMessage.Text = Settings.KeySettings.Note or "No method of obtaining the key is provided"
 
 			KeyMain.Size = UDim2.new(0, 467, 0, 175)
 			KeyMain.BackgroundTransparency = 1
@@ -1954,6 +1954,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 	Notifications.Template.Visible = false
 	Notifications.Visible = true
+
 	Rayfield.Enabled = true
 
 	task.wait(0.5)
@@ -2116,7 +2117,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Button.Interact.MouseButton1Click:Connect(function()
 				local Success, Response = pcall(ButtonSettings.Callback)
-				-- Prevents animation from trying to play if the button's callback called RayfieldLibrary:Destroy()
+				-- Prevents animation from trying to play if the button's callback called Rayfield:Destroy()
 				if rayfieldDestroyed then
 					return
 				end
@@ -2281,8 +2282,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				ColorPicker.RGB.RInput.InputBox.Text = tostring(r)
 				ColorPicker.RGB.GInput.InputBox.Text = tostring(g)
 				ColorPicker.RGB.BInput.InputBox.Text = tostring(b)
-				hex = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
-				ColorPicker.HexInput.InputBox.Text = hex
+				ColorPicker.HexInput.InputBox.Text = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
 			end
 			setDisplay()
 			ColorPicker.HexInput.InputBox.FocusLost:Connect(function()
@@ -2616,7 +2616,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(Input.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 			TweenService:Create(Input.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
 
-			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
+			Input.InputFrame.PlaceholderText = InputSettings.PlaceholderText
 			Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
